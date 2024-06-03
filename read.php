@@ -50,7 +50,7 @@
                 ?>
             </tbody>
         </table>
-        <a href="index.html">Registrar nuevo</a>
+        <a href="index.php">Registrar nuevo</a>
     </main>
 </body>
 </html>
