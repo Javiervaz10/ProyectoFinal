@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Datos de conexión a la base de datos
 $servername = "empleados-db.mysql.database.azure.com";
