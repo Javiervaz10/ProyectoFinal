@@ -50,7 +50,7 @@
                 ?>
             </tbody>
         </table>
-        <a href="index.html">Registrar nuevo empleado</a>
+        <a href="index.html">Registrar nuevo</a>
     </main>
 </body>
 </html>
