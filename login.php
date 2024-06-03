@@ -30,7 +30,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     // Verificar la contraseña
-    if (password_verify($input_password, $row['password'])) {
+    $hashed_password = password_hash($input_password, PASSWORD_DEFAULT);
         // Iniciar sesión
         $_SESSION['admin'] = $input_username;
         header("Location: index.html");
