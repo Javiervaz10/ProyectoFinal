@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             VALUES ('$nombre', '$apellido_paterno', '$apellido_materno', '$puesto', '$dias_trabajo', '$horas_trabajo', '$dias_vacaciones')";
 
     if ($conn->query($sql) === TRUE) {
-        header('Location: index.html');
+        header('Location: index.php');
         exit;
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
