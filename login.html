@@ -1,28 +1,3 @@
-<?php
-session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Variables con las credenciales correctas (normalmente estas vendrían de una base de datos)
-    $username_correcto = 'admin';
-    $password_correcto = 'adminpass';
-
-    // Obtener los valores del formulario
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Verificar si las credenciales son correctas
-    if ($username === $username_correcto && $password === $password_correcto) {
-        // Establecer sesión
-        $_SESSION['admin'] = $username;
-        // Redireccionar a index.php
-        header('Location: index.html');
-        exit();
-    } else {
-        // Si las credenciales no son correctas, mostrar un mensaje de error
-        $error = 'Usuario o contraseña incorrectos.';
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -45,11 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <button type="submit">Iniciar Sesión</button>
         </form>
-        <?php
-        if (isset($error)) {
-            echo '<div id="mensajeError" class="mensaje-error">' . $error . '</div>';
-        }
-        ?>
     </main>
 </body>
 </html>
