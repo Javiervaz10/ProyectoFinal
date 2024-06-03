@@ -1,5 +1,4 @@
 <?php
-session_start(); 
 // Datos de conexión a la base de datos
 $servername = "empleados-db.mysql.database.azure.com";
 $username = "u20051268@empleados-db";
@@ -14,24 +13,26 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Datos del formulario de registro
-$register_username = $_POST['username'];
-$register_password = $_POST['password'];
+// Consultar todos los usuarios
+$sql = "SELECT username, password FROM administradores";
+$result = $conn->query($sql);
 
-// Hashear la contraseña antes de almacenarla
-$hashed_password = password_hash($register_password, PASSWORD_DEFAULT);
+while ($row = $result->fetch_assoc()) {
+    $username = $row['username'];
+    $password = $row['password'];
 
-// Insertar el usuario en la base de datos
-$sql = "INSERT INTO administradores (username, password) VALUES (?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $register_username, $hashed_password);
+    // Hashear la contraseña si no está ya hasheada
+    if (!password_needs_rehash($password, PASSWORD_DEFAULT)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-if ($stmt->execute()) {
-    echo "Usuario registrado con éxito.";
-} else {
-    echo "Error al registrar el usuario: " . $conn->error;
+        // Actualizar la contraseña en la base de datos
+        $update_sql = "UPDATE administradores SET password = ? WHERE username = ?";
+        $stmt = $conn->prepare($update_sql);
+        $stmt->bind_param("ss", $hashed_password, $username);
+        $stmt->execute();
+        $stmt->close();
+    }
 }
 
-$stmt->close();
 $conn->close();
 ?>
