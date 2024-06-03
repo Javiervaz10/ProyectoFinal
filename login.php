@@ -1,4 +1,6 @@
 <?php
+// Iniciar sesión
+session_start();
 
 // Datos de conexión a la base de datos
 $servername = "empleados-db.mysql.database.azure.com";
@@ -7,7 +9,7 @@ $password = "userL20051268";
 $dbname = "industria";
 
 // Crear la conexión
-$conn = new mysql($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar la conexión
 if ($conn->connect_error) {
@@ -28,14 +30,14 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     // Verificar la contraseña
-    //if (password_verify($input_password, $row['password'])) {
+    if (password_verify($input_password, $row['password'])) {
         // Iniciar sesión
         $_SESSION['admin'] = $input_username;
         header("Location: index.php");
         exit();
-    //} else {
-      //  echo "Contraseña incorrecta.";
-    //}
+    } else {
+        echo "Contraseña incorrecta.";
+    }
 } else {
     echo "Usuario no encontrado.";
 }
