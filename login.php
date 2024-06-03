@@ -2,11 +2,10 @@
 session_start();
 
 // Datos de conexión a la base de datos
-$servername = "empleados-db.privatelink.mysql.database.azure.com.";
-$username = "u20051268";
+$servername = "empleados-db.mysql.database.azure.com";
+$username = "u20051268@empleados-db";
 $password = "userL20051268";
 $dbname = "industria";
-$ssl = "./ssl/Microsoft RSA Root Certificate Authority 2017.crt";
 
 // Crear la conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -30,7 +29,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     // Verificar la contraseña
-    $hashed_password = password_hash($input_password, PASSWORD_DEFAULT);
+    if (password_verify($input_password, $row['password'])) {
         // Iniciar sesión
         $_SESSION['admin'] = $input_username;
         header("Location: index.html");
