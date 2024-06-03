@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
     if (password_verify($input_password, $row['password'])) {
         // Iniciar sesión
         $_SESSION['admin'] = $input_username;
-        header("Location: index.php");
+        header("Location: ./index.php");
         exit();
     } else {
         echo "Contraseña incorrecta.";
