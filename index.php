@@ -4,7 +4,6 @@ if (!isset($_SESSION['admin'])) {
     header("Location: login.html");
     exit();
 }
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,3 +49,4 @@ if (!isset($_SESSION['admin'])) {
 
 </body>
 </html>
+?>
