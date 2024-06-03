@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Datos de conexión a la base de datos
 $servername = "empleados-db.mysql.database.azure.com";
 $username = "u20051268@empleados-db";
@@ -13,26 +15,32 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Consultar todos los usuarios
-$sql = "SELECT username, password FROM administradores";
-$result = $conn->query($sql);
+// Obtener los datos del formulario
+$input_username = $_POST['username'];
+$input_password = $_POST['password'];
 
-while ($row = $result->fetch_assoc()) {
-    $username = $row['username'];
-    $password = $row['password'];
+// Consultar la base de datos
+$sql = "SELECT * FROM administradores WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $input_username);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    // Hashear la contraseña si no está ya hasheada
-    if (!password_needs_rehash($password, PASSWORD_DEFAULT)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Actualizar la contraseña en la base de datos
-        $update_sql = "UPDATE administradores SET password = ? WHERE username = ?";
-        $stmt = $conn->prepare($update_sql);
-        $stmt->bind_param("ss", $hashed_password, $username);
-        $stmt->execute();
-        $stmt->close();
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    // Verificar la contraseña
+    if (password_verify($input_password, $row['password'])) {
+        // Iniciar sesión
+        $_SESSION['admin'] = $input_username;
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "Contraseña incorrecta.";
     }
+} else {
+    echo "Usuario no encontrado.";
 }
 
+$stmt->close();
 $conn->close();
 ?>
