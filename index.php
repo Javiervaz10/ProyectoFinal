@@ -10,6 +10,9 @@
 <body>
     <header>
         <h1>LINA INDUSTRY</h1>
+         <form action="logout.php" method="post" style="display:inline;">
+            <button type="submit">Cerrar Sesión</button>
+        </form>
     </header>
     <main>
         <h2>Registro de Empleados</h2>
