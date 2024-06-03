@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Establecer sesión
         $_SESSION['admin'] = $username;
         // Redireccionar a index.php
-        header('Location: index.php');
+        header('Location: index.html');
         exit();
     } else {
         // Si las credenciales no son correctas, mostrar un mensaje de error
