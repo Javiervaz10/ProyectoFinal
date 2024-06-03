@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+session_start(); 
 // Datos de conexión a la base de datos
 $servername = "empleados-db.mysql.database.azure.com";
 $username = "u20051268@empleados-db";
@@ -15,30 +14,22 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Obtener los datos del formulario
-$input_username = $_POST['username'];
-$input_password = $_POST['password'];
+// Datos del formulario de registro
+$register_username = $_POST['username'];
+$register_password = $_POST['password'];
 
-// Consultar la base de datos
-$sql = "SELECT * FROM administradores WHERE username = ?";
+// Hashear la contraseña antes de almacenarla
+$hashed_password = password_hash($register_password, PASSWORD_DEFAULT);
+
+// Insertar el usuario en la base de datos
+$sql = "INSERT INTO administradores (username, password) VALUES (?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $input_username);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_param("ss", $register_username, $hashed_password);
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    // Verificar la contraseña
-    if (password_verify($input_password, $row['password'])) {
-        // Iniciar sesión
-        $_SESSION['admin'] = $input_username;
-        header("Location: index.php");
-        exit();
-    } else {
-        echo "Contraseña incorrecta.";
-    }
+if ($stmt->execute()) {
+    echo "Usuario registrado con éxito.";
 } else {
-    echo "Usuario no encontrado.";
+    echo "Error al registrar el usuario: " . $conn->error;
 }
 
 $stmt->close();
