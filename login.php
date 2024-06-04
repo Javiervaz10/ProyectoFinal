@@ -28,8 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <header>
     <div class="login-container">
         <h1>LINA LOGIN</h1>
+    </header>
+    <main>
         <form action="login.php" method="post">
             <?php if (!empty($error)) : ?>
                 <p class="error"><?php echo $error; ?></p>
@@ -41,5 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Ingresar</button>
         </form>
     </div>
+    </main>
 </body>
 </html>
