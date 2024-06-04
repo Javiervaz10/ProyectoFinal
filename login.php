@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h1>LINA LOGIN</h1>
         <form action="login.php" method="post">
             <?php if (!empty($error)) : ?>
                 <p class="error"><?php echo $error; ?></p>
